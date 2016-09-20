@@ -117,23 +117,32 @@ function Cloud(img, canvas) {
     img = loadImage("./assets/background.png");
 
 
+
+    if(window.innerHeight > window.innerWidth){
+    alert("Please use Landscape!");
+}
+
+
+//
+// var frames = document.getElementsByClassName('mask');
+// var frame = frames[0];
+cnvs = createCanvas(windowWidth, windowHeight);
+cnvs.style('z-index:0');
+// cnvs.id('weather');
+centreCanvas();
+for (var i = 0; i < 12; i++) {
+  var string = String((i % 6 + 1));
+  clouds[i] = new Cloud("./assets/cloud" + string + ".png", cnvs);
+
+
+
+}
+
+
   }
 
   function setup() {
-    //
-    // var frames = document.getElementsByClassName('mask');
-    // var frame = frames[0];
-    cnvs = createCanvas(windowWidth, windowHeight);
-    cnvs.style('z-index:0');
-    // cnvs.id('weather');
-    centreCanvas();
-    for (var i = 0; i < 12; i++) {
-      var string = String((i % 6 + 1));
-      clouds[i] = new Cloud("./assets/cloud" + string + ".png", cnvs);
 
-
-
-    }
     background(255);
     // cnvs.size(windowWidth*0.5, windowHeight*0.5);
 
