@@ -72,7 +72,7 @@ function Particle(_location, type) {
       if(type === 2){
         this.velocity = createVector(random(-1,1), random(-1,1));
         fill(random(150,240), this.lifespan);
-        ellipse(this.location.x, this.location.y, 3, 3);
+        ellipse(this.location.x, this.location.y, 4, 4);
 
       }
     };
@@ -107,15 +107,15 @@ function ParticleSystem(_location, _width, type) {
     ParticleSystem.prototype.addParticle = function() {
 
       if(type === 1){
-      this.particles.push(new Particle(createVector(random(0, _width), -10), type));
-      this.particles.push(new Particle(createVector(random(0, _width), -100), type));
-      this.particles.push(new Particle(createVector(random(0, _width), -50), type));
+      this.particles.push(new Particle(createVector(random(0, _width), -10), 1));
+      this.particles.push(new Particle(createVector(random(0, _width), -100), 1));
+      this.particles.push(new Particle(createVector(random(0, _width), -50), 1));
     }
 
     if(type === 2) {
-      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), type));
-      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), type));
-      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), type));
+      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), 1));
+      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), 1));
+      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), 1));
 
 
     }
@@ -246,11 +246,11 @@ for (var i = 0; i < 12; i++) {
   }
 
   function printWeather(){
-    if(weather){
+
       var elt = document.getElementById("weatherText");
-      var string = "There is currently " + "rain" + " in Lispole.";
+      var string = "There is currently " + "mist & drizzle" + " in Lispole.";
       elt.innerHTML = string;
-    }
+
 
   }
 
