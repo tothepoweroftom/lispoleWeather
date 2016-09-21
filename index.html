@@ -12,7 +12,7 @@
 
     <!--<script type="text/javascript" src="https://tonejs.github.io/CDN/r6/p5.Tone.min.js"></script>-->
 
-    <script src="sketch.js" type="text/javascript"></script>
+
 
     <style>
       body {padding: 0; margin: 0;}
@@ -35,7 +35,7 @@
         -ms-transform: translateZ(0);
         -o-transform: translateZ(0);
         transform: translateZ(0);
-        /* Other transform properties here */        
+        /* Other transform properties here */
       }
 
       .mask{
@@ -59,6 +59,24 @@
 
         }
 
+        #logo {
+            top: 0px;
+            left: 1%;
+
+
+        }
+
+        #weatherText {
+
+          width: 150px;
+          height: 100px;
+          right: 10%;
+          top: 2em;
+          position: absolute;
+          font-family: sans-serif;
+          z-index: 3;
+        }
+
         #warning-message { display: none; }
          @media only screen and (orientation:portrait){
              #wrapper { display:none; }
@@ -71,6 +89,10 @@
   </head>
   <body>
 
+
+        <script src="sketch.js" type="text/javascript"></script>
+        <script src="audio.js" type="text/javascript"></script>
+
     <div id="wrapper">
         <div  class="mask" >
           <img id="frame" src='./assets/background.png'></img>
@@ -79,6 +101,11 @@
 
 
       </div>
+    </div>
+
+    <div id="weatherText">
+
+
     </div>
 
     <div id="warning-message">

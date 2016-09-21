@@ -3,16 +3,24 @@ var weather;
 //background image
 var img; // Declare variable 'img'.
 
+//Audio
+var players = [];
+
 
 
 //CLOUD SYSTEM
 var clouds = [];
 var cnvs;
-var cloudToggle = true;
+var cloudToggle = false;
 
 //Rain System
 var rainSystem;
-var rainSet = true;
+var rainToggle = false;
+
+var mistToggle=false;
+
+var clearToggle=false;
+
 
 function Cloud(img, canvas) {
   this.image = loadImage(img);
@@ -46,9 +54,9 @@ function Cloud(img, canvas) {
   };
 }
 
-  function Particle(_location) {
+function Particle(_location, type) {
     this.location = _location;
-    this.velocity = createVector(0, random(-3, 0));
+    this.velocity = createVector(0, random(-2, 0));
     this.acceleration = createVector(0, 0.25);
     this.lifespan = 255.0;
     this.size = [random(1,4), random(3,7)];
@@ -57,8 +65,16 @@ function Cloud(img, canvas) {
       strokeWeight(2);
       noStroke();
 
+      if(type === 1) {
       fill(50, 16, 250, this.lifespan);
       ellipse(this.location.x, this.location.y, this.size[0], this.size[1]);
+      }
+      if(type === 2){
+        this.velocity = createVector(random(-1,1), random(-1,1));
+        fill(random(150,240), this.lifespan);
+        ellipse(this.location.x, this.location.y, 3, 3);
+
+      }
     };
     Particle.prototype.update = function() {
       this.velocity.add(this.acceleration);
@@ -83,15 +99,26 @@ function Cloud(img, canvas) {
 
   }
 
-  function ParticleSystem(_location, _width) {
+function ParticleSystem(_location, _width, type) {
     this.origin = _location;
     this.particles = [];
     this.wind = createVector(random(-0.15, 0.15), random(0.1, 0.35));
 
     ParticleSystem.prototype.addParticle = function() {
-      this.particles.push(new Particle(createVector(random(0, _width), -10)));
-      this.particles.push(new Particle(createVector(random(0, _width), -100)));
-      this.particles.push(new Particle(createVector(random(0, _width), -50)));
+
+      if(type === 1){
+      this.particles.push(new Particle(createVector(random(0, _width), -10), type));
+      this.particles.push(new Particle(createVector(random(0, _width), -100), type));
+      this.particles.push(new Particle(createVector(random(0, _width), -50), type));
+    }
+
+    if(type === 2) {
+      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), type));
+      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), type));
+      this.particles.push(new Particle(createVector(random(0, _width), random(0, _width)), type));
+
+
+    }
 
     }
 
@@ -112,7 +139,27 @@ function Cloud(img, canvas) {
 
 
 
-  function preload() {
+function preload() {
+    players[0] = new Tone.Player({
+      "url": "./assets/audio/rain.wav",
+      "loop": true,
+    }).toMaster();
+
+    players[1] = new Tone.Player({
+      "url": "./assets/audio/cloud.wav",
+      "loop": true,
+    }).toMaster();
+
+    players[2] = new Tone.Player({
+      "url": "./assets/audio/figmist.wav",
+      "loop": true,
+    }).toMaster();
+
+    players[3] = new Tone.Player({
+      "url": "./assets/audio/sun.wav",
+      "loop": true,
+    }).toMaster();
+
 
     img = loadImage("./assets/background.png");
 
@@ -120,7 +167,7 @@ function Cloud(img, canvas) {
 
     if(window.innerHeight > window.innerWidth){
     alert("Please use Landscape!");
-}
+    }
 
 
 //
@@ -155,9 +202,9 @@ for (var i = 0; i < 12; i++) {
 
     }
 
-    if (rainSet) {
-      rainSystem = new ParticleSystem(createVector(width / 2, 50), cnvs.width);
-    }
+
+      rainSystem = new ParticleSystem(createVector(width / 2, 50), cnvs.width, 1);
+      mistSystem = new ParticleSystem(createVector(width / 2, height/2), cnvs.width, 2);
 
 
 
@@ -169,19 +216,54 @@ for (var i = 0; i < 12; i++) {
   // }
 
   function gotData(data) {
-    print(data);
-    weather = data;
-    print(weather.weather[0].id);
-    if (weather.weather[0].id >= 800 && weather.weather[0].id < 900) {
-      cloudToggle = true;
+
+    if(data){
+        print(data);
+        weather = data;
+        print(weather.weather[0].id);
+
+
+        if (weather.weather[0].id >= 800 && weather.weather[0].id < 900) {
+          cloudToggle = true;
+        }
+        if (weather.weather[0].id >= 300 && weather.weather[0].id < 600) {
+          rainToggle = true;
+          cloudToggle = true;
+          mistToggle = false;
+
+        }
+        if (weather.weather[0].id >= 700 && weather.weather[0].id < 800) {
+          cloudToggle=false;
+          rainToggle=false;
+          mistToggle= true;
+        }
+        if (weather.weather[0].id === 800) {
+          clearToggle=true;
+        }
+
+
+  }
+  }
+
+  function printWeather(){
+    if(weather){
+      var elt = document.getElementById("weatherText");
+      var string = "There is currently " + weather.weather[0].main + " in Lispole.";
+      elt.innerHTML = string;
     }
+
   }
 
   function draw() {
     //background(230);
     noStroke();
-    fill(240, 150);
+    if(clearToggle){
+    fill(102, 204, 255, 150);
+  } else {
+    fill(240,150);
+  }
     rect(0, 0, cnvs.width, cnvs.height);
+    printWeather();
   //  image(img, 0, 0);
 
 
@@ -192,11 +274,22 @@ for (var i = 0; i < 12; i++) {
         clouds[i].run();
 
       }
+      players[0].mute = true;
+      players[1].start();
+
     }
 
-    if (rainSet) {
+    if (rainToggle) {
       rainSystem.addParticle();
       rainSystem.run();
+      players[0].start();
+
+    }
+
+    if (mistToggle) {
+      mistSystem.addParticle();
+      mistSystem.run();
+      players[2].start();
     }
 
 
