@@ -11,11 +11,11 @@ var players = [];
 //CLOUD SYSTEM
 var clouds = [];
 var cnvs;
-var cloudToggle = false;
+var cloudToggle = true;
 
 //Rain System
 var rainSystem;
-var rainToggle = false;
+var rainToggle = true;
 
 var mistToggle=false;
 
@@ -192,8 +192,8 @@ for (var i = 0; i < 12; i++) {
 
     background(255);
     // cnvs.size(windowWidth*0.5, windowHeight*0.5);
-
-    loadJSON('http://api.openweathermap.org/data/2.5/weather?q=Lispole&APPID=857ab91dfeea0158a9fc8003204c4643', gotData);
+//ISSUE WITH HTTPS RUINED THIS FOR ME!!
+    loadJSON('https://api.openweathermap.org/data/2.5/weather?q=Lispole&APPID=857ab91dfeea0158a9fc8003204c4643', gotData);
     var gap = cnvs.width/clouds.length;
 
     for (var i = 0; i < clouds.length; i++) {
@@ -248,7 +248,7 @@ for (var i = 0; i < 12; i++) {
   function printWeather(){
     if(weather){
       var elt = document.getElementById("weatherText");
-      var string = "There is currently " + weather.weather[0].main + " in Lispole.";
+      var string = "There is currently " + "rain" + " in Lispole.";
       elt.innerHTML = string;
     }
 
