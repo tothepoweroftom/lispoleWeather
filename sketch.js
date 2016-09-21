@@ -193,7 +193,7 @@ for (var i = 0; i < 12; i++) {
     background(255);
     // cnvs.size(windowWidth*0.5, windowHeight*0.5);
 //ISSUE WITH HTTPS RUINED THIS FOR ME!!
-    loadJSON('https://api.openweathermap.org/data/2.5/weather?q=Lispole&APPID=857ab91dfeea0158a9fc8003204c4643', gotData);
+  //  loadJSON('https://api.openweathermap.org/data/2.5/weather?q=Lispole&APPID=857ab91dfeea0158a9fc8003204c4643', gotData);
     var gap = cnvs.width/clouds.length;
 
     for (var i = 0; i < clouds.length; i++) {
