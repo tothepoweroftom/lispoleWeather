@@ -141,22 +141,22 @@ function ParticleSystem(_location, _width, type) {
 
 function preload() {
     players[0] = new Tone.Player({
-      "url": "./assets/audio/rain.wav",
+      "url": "./assets/audio/rain.mp3",
       "loop": true,
     }).toMaster();
 
     players[1] = new Tone.Player({
-      "url": "./assets/audio/cloud.wav",
+      "url": "./assets/audio/cloud.mp3",
       "loop": true,
     }).toMaster();
 
     players[2] = new Tone.Player({
-      "url": "./assets/audio/figmist.wav",
+      "url": "./assets/audio/figmist.mp3",
       "loop": true,
     }).toMaster();
 
     players[3] = new Tone.Player({
-      "url": "./assets/audio/sun.wav",
+      "url": "./assets/audio/sun.mp3",
       "loop": true,
     }).toMaster();
 
